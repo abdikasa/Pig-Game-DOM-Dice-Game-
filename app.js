@@ -9,41 +9,6 @@ GAME RULES:
 
 */
 
-//Declared variables
-let scores, roundScore, activePlayer, dice;
-scores = [0, 0];
-roundScore = 0;
-activePlayer = 0; //let 0 be the first player and 1 be the second player.
-var btnroll_ = document.querySelector(".btn-roll");
-var secondC = document.querySelector("#current-1");
-var second = document.querySelector("#score-1");
-var first = document.querySelector("#score-0");
-
-var firstC = document.querySelector("#current-0");
-dice = Math.floor(Math.random() * 6) + 1;
-
-//selecting html classes/ids
-
-function rollDice() {
-    dice = Math.floor(Math.random() * 6) + 1;
-    firstC.innerHTML = dice;
-}
-
-//set all scores to 0 when starting the game.
-//fixed issue that the event btnroll_ could be clicked as they page loads.
-//forced click event listener to wait for all functions to  load first before executing on the stack.
-
-function newGame() {
-    first.innerHTML = 0;
-    firstC.innerHTML = 0;
-    second.innerHTML = 0;
-    secondC.innerHTML = 0;
-}
-window.setTimeout(newGame(),1000);
-
-btnroll_.addEventListener("click", rollDice)
-
-
 
 
 
