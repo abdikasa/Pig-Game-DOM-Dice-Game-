@@ -34,6 +34,12 @@ function start() {
     document.getElementById("current-0").textContent = 0;
     document.getElementById("current-1").textContent = 0;
     diceImg.style.display = "none";
+    hold.style.display = "block";
+    roll.style.display = "block";
+    document.querySelector(`.player-0-panel`).classList.add(`active`);
+    document.querySelector(`.player-0-panel`).classList.remove(`winner`);
+    document.querySelector(`.player-1-panel`).classList.remove(`winner`);
+    document.querySelector(`.player-1-panel`).classList.remove(`active`);
 }
 
 //Change turns via ternary operator.
@@ -51,15 +57,27 @@ let change = function () {
     return activePlayer;
 }
 
+//Handles the unction when playerclicks the hold button.
+//Adds users score to their main score, resets the round score when switching turns.
+//Win condition is one here as well; if player reaches 100 points, game is over.
+//Winner will have a special class added to it and the buttons hold and roll will be gone.
+
 let holding = function () {
-    var x = document.getElementById(`score-${activePlayer}`);
-    scores[activePlayer] = Number(x.textContent) + roundScore;
-    x.textContent = scores[activePlayer];
+    let score = document.getElementById(`score-${activePlayer}`);
+    scores[activePlayer] = Number(score.textContent) + roundScore;
+    score.textContent = scores[activePlayer];
     console.log(scores[activePlayer])
     //console.log(typeof num, num)
     roundScore = 0;
     document.getElementById(`current-${activePlayer}`).textContent = 0;
-    activePlayer = change();
+    if (scores[activePlayer] > 20) {
+        document.querySelector(`.player-${activePlayer}-panel`).classList.remove("active");
+        document.querySelector(`.player-${activePlayer}-panel`).classList.add("winner")
+        hold.style.display = "none";
+        roll.style.display = "none";
+    } else {
+        activePlayer = change();
+    }
 }
 
 //Function expression for dice roll.
@@ -86,6 +104,7 @@ diceRoll = function () {
 
 roll.addEventListener("click", diceRoll);
 hold.addEventListener("click", holding);
+newGame.addEventListener("click", start)
 window.setTimeout(start(), 1000);
 
 
