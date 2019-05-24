@@ -38,7 +38,7 @@ function start() {
 
 //Change turns via ternary operator.
 //Used classlist to add and remove the classes fromthe slected panels.
-let change = function changePlayers() {
+let change = function () {
     if (activePlayer === 0) {
         document.querySelector(`.player-${activePlayer}-panel`).classList.remove(`active`);
         activePlayer = 1;
@@ -49,6 +49,17 @@ let change = function changePlayers() {
         document.querySelector(`.player-${activePlayer}-panel`).classList.add(`active`);
     }
     return activePlayer;
+}
+
+let holding = function () {
+    var x = document.getElementById(`score-${activePlayer}`);
+    scores[activePlayer] = Number(x.textContent) + roundScore;
+    x.textContent = scores[activePlayer];
+    console.log(scores[activePlayer])
+    //console.log(typeof num, num)
+    roundScore = 0;
+    document.getElementById(`current-${activePlayer}`).textContent = 0;
+    activePlayer = change();
 }
 
 //Function expression for dice roll.
@@ -69,13 +80,12 @@ diceRoll = function () {
         diceImg.src = `dice-${dice}.png`
         roundScore += dice;
         document.getElementById(`current-${activePlayer}`).textContent = roundScore;
-
     }
     console.log(`Round Score: ${roundScore}`);
 }
 
 roll.addEventListener("click", diceRoll);
-
+hold.addEventListener("click", holding);
 window.setTimeout(start(), 1000);
 
 
