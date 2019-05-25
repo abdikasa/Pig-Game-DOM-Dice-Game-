@@ -9,48 +9,67 @@ GAME RULES:
 
 */
 
-//Define variabeles
+/**********************************************
+*** DECLARED VARIABLES
+**********************************************/
+
 let activePlayer, scores, roundScore, stillPlaying, dice, diceRoll;
-let hold, roll, newGame, diceImg;
+let hold, roll, newGame, diceImg, p0_score, p0_curr, p1_curr, p1_score;
+
+/**********************************************
+*** DEFINED VARIABLES
+**********************************************/
+
 activePlayer = 0;
 scores = [0, 0];
 roundScore = 0;
 stillPlaying = true;
 
-
 //DOM Handlers
 hold = document.querySelector(".btn-hold");
 roll = document.querySelector(".btn-roll");
 newGame = document.querySelector(".btn-new");
-
 diceImg = document.querySelector(".dice");
+p0_score = document.getElementById("score-0");
+p1_score = document.getElementById("score-1");
+p0_curr = document.getElementById("current-0");
+p1_curr = document.getElementById("current-1");
 
 
-//Get rid of IFEE, maybe a timeout for 1 second to prevent click events from starting. DONE
-//Or I could just change the HTML scores to 0. DONE
 function start() {
-    document.getElementById("score-0").textContent = 0;
-    document.getElementById("score-1").textContent = 0;
-    document.getElementById("current-0").textContent = 0;
-    document.getElementById("current-1").textContent = 0;
-    diceImg.style.display = "none";
-    hold.style.display = "block";
-    roll.style.display = "block";
+    scoreReset();
+    handleButtonAction();
+    removeAdditionalClasses();
+}
+
+function removeAdditionalClasses() {
     document.querySelector(`.player-0-panel`).classList.add(`active`);
     document.querySelector(`.player-0-panel`).classList.remove(`winner`);
     document.querySelector(`.player-1-panel`).classList.remove(`winner`);
     document.querySelector(`.player-1-panel`).classList.remove(`active`);
 }
 
-//Change turns via ternary operator.
-//Used classlist to add and remove the classes fromthe slected panels.
+function scoreReset() {
+    p0_score.textContent = 0;
+    p1_score.textContent = 0;
+    p0_curr.textContent = 0;
+    p1_curr.textContent = 0;
+}
+
+function handleButtonAction() {
+    diceImg.style.display = "none";
+    hold.style.display = "block";
+    roll.style.display = "block";
+}
+
+
 let change = function () {
     if (activePlayer === 0) {
-        document.querySelector(`.player-${activePlayer}-panel`).classList.remove(`active`);
+        document.querySelector(`.player-${activePlayer}-panel`).classList.toggle(`active`);
         activePlayer = 1;
         document.querySelector(`.player-${activePlayer}-panel`).classList.add(`active`);
     } else {
-        document.querySelector(`.player-${activePlayer}-panel`).classList.remove(`active`);
+        document.querySelector(`.player-${activePlayer}-panel`).classList.toggle(`active`);
         activePlayer = 0;
         document.querySelector(`.player-${activePlayer}-panel`).classList.add(`active`);
     }
@@ -81,15 +100,12 @@ let holding = function () {
 }
 
 //Function expression for dice roll.
+
 diceRoll = function () {
-    //1. Generate A Random Number
 
     dice = Math.floor(Math.random() * 6) + 1;
-
-    //2. Display result
     diceImg.style.display = "block";
 
-    //3. Upload round score if the rollled number is not a 1, display image, add score.
     if (dice === 1) {
         roundScore = 0;
         document.getElementById(`current-${activePlayer}`).textContent = roundScore;
@@ -106,42 +122,3 @@ roll.addEventListener("click", diceRoll);
 hold.addEventListener("click", holding);
 newGame.addEventListener("click", start)
 window.setTimeout(start(), 1000);
-
-
-
-
-//Commented for later use
-//dice = Math.floor(Math.random() * 6) + 1;
-
-//Functions here
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
